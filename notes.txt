@@ -1,0 +1,179 @@
+in react the creation format is {type,attribute ,children}
+render is joining html to js file
+"parcel": "^2.16.3"/*  ^ indicates the latest minor and patch version */
+react is faster because it has reconcilitation ,react fibre and virtual dom
+usestate is a hook which is used to manage the state of the component
+hooks are used to manage the state and lifecycle of functional components
+using hook we can apply filters,sort and search in the list of items
+State change //react rendering flow
+
+     ↓
+New Virtual DOM created
+     ↓
+Reconciliation compares old vs new
+     ↓
+Fiber schedules updates smartly
+     ↓
+Real DOM updated
+
+Concept 	Meaning
+Virtual  DOM	Memory copy of UI
+Reconciliation	 Comparing old vs new UI
+React Fiber 	Engine managing updates & priority
+
+Virtual DOM is a virtual representation of the Real DOM used to optimize UI updates.
+Reconciliation is the process React uses to compare:
+Previous Virtual DOM
+Updated Virtual DOM
+
+Steps:
+State or props change
+React creates a new Virtual DOM tree
+React compares it with the previous tree (diffing algorithm)
+Finds differences
+Updates only necessary elements in the Real DOM
+
+
+
+<!-- /* <div id ="container">
+<div id="container1">
+    <h1>Welcome to the App</h1> 
+    <h2> this is my heading</h2>
+    </div>
+    <div id="container2">
+    <h1>Welcome to the App</h1> 
+    <h2> this is my heading</h2>
+    </div>
+
+</div> --> */
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+ /* const containerDiv = React.createElement("div", { id: "container" },
+     [
+  React.createElement("div", { id: "container1" },
+    React.createElement("h1", {}, "Welcome to the App"),
+    React.createElement("h2", {}, "this is my heading")
+  ),
+  React.createElement("div", { id: "container2" },
+    React.createElement("h1", {}, "Welcome to the App"),
+    React.createElement("h2", {}, "this is my heading")
+  )
+]
+);
+ console.log(containerDiv); //react element==object
+ const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(containerDiv); 
+ */
+const h1 = React.createElement("h1", { id: "heading" }, "Welcome to the App");
+console.log('h1');
+
+const age=21;
+const jsxHeading = (
+  <!-- <div className="container"> 
+  <h1 id="heading" >{age}</h1>
+  </div>
+); -->
+console.log('jsxHeading');
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(jsxHeading); 
+
+
+components
+1) class based   2) function based 
+A Class Component is created using a JavaScript class and it extends React.Component.
+It was the traditional way of writing components before React Hooks were introduced.
+
+import React, { Component } from "react";
+
+class Welcome extends Component {
+  render() {
+    return (
+      <h1>Hello World</h1>
+    );
+  }
+}
+
+export default Welcome;
+
+function based :(mostly used)
+A Function Component is simply a JavaScript function that returns JSX.
+
+After React Hooks, function components can also use state and lifecycle features.
+
+Basic Syntax
+function Welcome() {
+  return <h1>Hello World</h1>;
+}
+
+export default Welcome;
+| Feature           | Class Component       | Function Component  |
+| ----------------- | --------------------- | ------------------- |
+| Syntax            | ES6 class             | JavaScript function |
+| State             | this.state            | useState hook       |
+| Lifecycle methods | componentDidMount etc | useEffect hook      |
+| Code length       | More code             | Less code           |
+| Modern usage      | Less used now         | Recommended         |
+
+
+#componentDidMount
+
+constructor → render → componentDidMount
+🤔 Why does render() run BEFORE componentDidMount()?
+🧠 Simple Reason:
+
+👉 React must first create and show the UI, then run side-effects.
+
+🔍 Step-by-step flow:
+1️⃣ render() runs first
+React builds the UI (Virtual DOM)
+Converts it to real DOM
+Displays it on the screen
+
+👉 At this point, the component is visible
+
+2️⃣ componentDidMount() runs after
+Now the component is fully loaded in the DOM
+Safe to:
+Fetch data
+Access DOM elements
+Start timers
+💡 Why not run componentDidMount() before render?
+
+Because:
+
+❌ DOM does not exist yet
+❌ No UI to update
+❌ Cannot safely manipulate elements
+
+👉 Example:
+
+document.getElementById("myDiv")
+
+This would fail before render, because the element isn’t created yet.
+
+🔥 Real-life analogy
+
+Think of building a house 🏠:
+
+render() → Build the house (walls, structure ready)
+componentDidMount() → Move in furniture, decorate, install WiFi
+
+👉 You can’t decorate before the house exists!
+
+⚙️ Important Insight
+
+React separates:
+
+Step	Purpose
+render()	UI creation (pure)
+DidMount	Side effects (impure)
+
+👉 This keeps React fast, predictable, and efficient
+
+🎯 One-line answer (for exams/interviews)
+
+render() runs first to generate and display the UI, and componentDidMount() runs afterward to perform side effects once the DOM is ready.
+
+React lifecycle model is the process through which a component is created, updated, and removed from the DOM.
