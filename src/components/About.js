@@ -27,7 +27,21 @@ class About extends Component {
             console.log('Parent render is called');
             
             return(
-                <Profileclass name = "bhumi shinde" address="pune" email="bhumi.shinde@example.com"/> )
+                <div>
+                    <Profileclass name = "bhumi shinde" address="pune" email="bhumi.shinde@example.com"/>
+                    <Profileclass name = "bhumi shinde" address="pune" email="bhumi.shinde@example.com"/>
+                </div>
+             )
 }
 }
 export default About;   
+
+// parent constructor is called
+// parent render is called
+// child constructor is called
+// child render is called
+//child constructor is called
+// child render is called
+
+// child component did mount called -2 times 
+// parent component did mount called
