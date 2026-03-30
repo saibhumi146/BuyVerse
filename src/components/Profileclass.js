@@ -1,35 +1,61 @@
 import React from "react";
 
 class Profileclass extends React.Component {
-  constructor(props) {
-    super(props);
-    
+  constructor() {
+    super();
     this.state = {
-      count: 0,
-      count2: 0,
-    };
-    console.log('childctr is called');
-    
+      userDetails:{
+        name: "Dummy Name",
+        avatar_url: "https://avatars.githubusercontent.com/u/9919?s=280&v=4"
+      }
+    }
+    console.log('constructor is called');
+ }
+  async componentDidMount() {
+    const data  = await fetch("https://api.github.com/users/saibhumi146");
+    const resData = await data.json();
+    console.log(resData);
+    this.setState({
+      userDetails: resData
+    });
+    console.log('component did mount called');
   }
-  componentDidMount() {
-    console.log("child component did mount called");
+
+  componentDidUpdate(){
+    console.log('component did update called');
   }
+  componentWillUnmount(){
+    console.log('component will unmount called');
+  }
+
   render() {
-    console.log(' child render is called');
-    
+    console.log('render is called');
+    if (this.state.userDetails === null) {
+      return <h1> Loading ... </h1>;
+    }
+     
+    const { name, avatar_url } = this.state.userDetails;
     return (
+      
       <div style={{ border: "1px solid black" }}>
         <h1>Profile Class based COMPONENT</h1>
-        <h1>Name: {this.props.name}</h1>
-        <h1>Address: {this.props.address}</h1>
-        <h1>Email: {this.props.email}</h1>
-        <h1>count2 - {this.state.count2}</h1>
-        <button onClick={()=>{
-            this.setState({count2:this.state.count2+1})         // you can not directly update the state like this.state.count = this.state.count + 1; it will not work, you have to use setState method to update the state  
-
-        }}> Increment </button>
+        <h1>Name: {name}</h1>
+        <img src={avatar_url} alt="profile pic" width="200px" />
+        
+        
       </div>
     );
   }
 }
 export default Profileclass;
+
+//---- mounting phase ----
+// ctr is called with (null)
+// render is called
+// component did mount is called  
+//---- updating phase ----
+// setState is called
+// render is called
+// component did update is called
+//---- unmounting phase ----
+// component will unmount is called - this is used to clean up the code like clearInterval, clearTimeout, removeEventListener etc.  

@@ -177,3 +177,98 @@ DidMount	Side effects (impure)
 render() runs first to generate and display the UI, and componentDidMount() runs afterward to perform side effects once the DOM is ready.
 
 React lifecycle model is the process through which a component is created, updated, and removed from the DOM.
+
+
+1️⃣ componentDidMount() – First Time Loading
+Easy Theory
+
+componentDidMount() runs after the component appears on the screen for the first time.
+
+👉 It runs only once.
+
+Real-Life Example
+
+Think about opening a shopping app.
+
+You open the app
+The product page appears
+Then products are loaded from the server
+
+👉 Loading products after opening the page is like componentDidMount().
+
+Simple Code Example
+componentDidMount() {
+  console.log("Page loaded");
+}
+2️⃣ Component Update (Updating Phase)
+Easy Theory
+
+A component updates when its data (state or props) changes, and React re-renders the UI.
+
+Real-Life Example
+
+In a shopping website:
+
+You click Add to Cart
+Cart number increases
+Page updates
+
+👉 This change is component update.
+
+3️⃣ componentDidUpdate()
+Easy Theory
+
+componentDidUpdate() runs after the component updates.
+
+👉 It happens after state or props change.
+
+Real-Life Example
+
+In a shopping cart:
+
+You add a product
+Cart number changes
+React updates UI
+After update → componentDidUpdate() runs
+
+Example use:
+
+Show notification
+Save data
+Example Code
+componentDidUpdate() {
+  console.log("Component updated");
+}
+4️⃣ componentWillUnmount()
+Easy Theory
+
+componentWillUnmount() runs when a component is about to be removed from the screen.
+
+Real-Life Example
+
+Imagine a music player page.
+
+Music is playing
+You leave the page
+Music stops
+
+👉 Stopping the music is like componentWillUnmount().
+
+Example Code
+componentWillUnmount() {
+  console.log("Component removed");
+}
+🔄 Very Easy Lifecycle Story
+
+Think of a mobile app screen:
+
+1️⃣ Screen opens → componentDidMount
+2️⃣ User clicks something → Component Update
+3️⃣ Page refreshes with new data → componentDidUpdate
+4️⃣ User closes page → componentWillUnmount
+
+🧠 Super Short Exam Version
+componentDidMount: Runs after the component is first displayed.
+Component Update: Happens when state or props change.
+componentDidUpdate: Runs after the component updates.
+componentWillUnmount: Runs before the component is removed.

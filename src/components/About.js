@@ -15,21 +15,18 @@ export default About; */
 class About extends Component {
      constructor(){
         super();
-        console.log('Parent ctr is called');
+
         }
     
-        componentDidMount(){
-            console.log('Parent mount is called ');
-            
-        }
+        
 
         render(){
-            console.log('Parent render is called');
+            
             
             return(
                 <div>
                     <Profileclass name = "bhumi shinde" address="pune" email="bhumi.shinde@example.com"/>
-                    <Profileclass name = "bhumi shinde" address="pune" email="bhumi.shinde@example.com"/>
+                    
                 </div>
              )
 }
