@@ -18,14 +18,18 @@ class Profileclass extends React.Component {
     this.setState({
       userDetails: resData
     });
-    console.log('component did mount called');
+    
+     console.log('component did mount');
+     
   }
+ 
 
   componentDidUpdate(){
     console.log('component did update called');
   }
   componentWillUnmount(){
     console.log('component will unmount called');
+    clearInterval(this.timer);
   }
 
   render() {

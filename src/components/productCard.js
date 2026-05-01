@@ -9,8 +9,15 @@ export const ProductCard = () => {
   const [listOfProduct, setListOfProduct] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
   useEffect( ()=>{
-    fetchData();},[]);
+    fetchData();
+  const timer = setInterval( ()=>{
+      console.log('Bhumi Shinde');
+     }, 1000);
+    return()=>{clearInterval(timer);
+    }
+    },[]);
 
   const fetchData = async() => {
     const data = await fetch("https://fakestoreapi.com/products");
