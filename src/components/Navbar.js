@@ -26,6 +26,7 @@ const Navbar = () => {
         <li><Link to="/kid">KID</Link></li>
         <li>HOME & LIVING</li>
         <li>BEAUTY</li>
+        <li><Link to="/grocery">GROCERY</Link></li>
         <button onClick={()=>{
           setBtnName("dark");
         }}>{btnName} </button>

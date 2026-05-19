@@ -272,3 +272,87 @@ componentDidMount: Runs after the component is first displayed.
 Component Update: Happens when state or props change.
 componentDidUpdate: Runs after the component updates.
 componentWillUnmount: Runs before the component is removed.
+
+clean up
+Think of a component like a room:
+
+You turn on lights (start processes)
+When leaving → you must turn them off (cleanup)
+
+it happens in componentWillUnmount()
+but nowadays happens in useEffects
+
+useEffect(() => {
+  const interval = setInterval(() => {}, 1000);
+
+  return () => clearInterval(interval); // cleanup
+}, []);
+
+
+Lazy Loading and Suspense hooks
+
+Q1. What is lazy loading?
+Loading components only when needed.
+
+Q2. Why use Suspense?
+To display fallback content while lazy components load.
+
+Q3. What is code splitting?
+Breaking bundle into smaller chunks.
+
+Q4. Which function is used for lazy loading?
+React.lazy()
+
+const Dashboard = React.lazy(() => import("./Dashboard"));
+
+<Route
+ path="/dashboard"
+ element={
+   <Suspense fallback={<h1>Loading...</h1>}>
+      <Dashboard />
+   </Suspense>
+ }
+/>
+Advantages of Lazy Loading
+Faster Initial Load
+Only necessary files are downloaded first.
+Better Performance
+Less JavaScript at startup.
+Reduced Bundle Size
+Code splitting happens automatically.
+Better User Experience
+App feels faster.
+
+CUSTOM HOOKS 
+
+Custom Hooks in React
+A Custom Hook is a JavaScript function that:
+Uses React hooks internally
+Starts with the word use
+Helps reuse logic between components
+
+A custom hook:looks like
+
+Uses built-in hooks like:
+useState
+useEffect
+useContext
+Returns reusable data/functions
+Components use the returned values
+
+Advantages of Custom Hooks
+Reusable Logic
+Write once, use anywhere.
+
+Cleaner Components
+UI code stays separate from logic.
+Better Maintainability
+Easy to update logic in one place.
+Reduces Duplication
+Avoid repeating same code.
+ex : useGetSingleProduct.js 
+
+
+
+
+ 

@@ -18,9 +18,7 @@ class About extends Component {
 
         }
     
-        
-
-        render(){
+          render(){
             
             
             return(
