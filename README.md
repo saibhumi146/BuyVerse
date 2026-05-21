@@ -10,5 +10,5 @@ A responsive e-commerce web application built using React.js.
 ## Tech Stack
 - React.js
 - JavaScript
-- CSS
-- 
+-  Tailwind CSS
+  
