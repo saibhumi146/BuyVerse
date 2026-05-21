@@ -1,7 +1,7 @@
 // named export
 import { useState, useEffect } from "react";
 import { productlist } from "../Utilities/constant";
-import Product from "./Product";
+import Product,{HOF}  from "./Product";
 import Skeleton from "./skeleton";
 import { Link } from "react-router-dom";
 
@@ -28,10 +28,14 @@ export const ProductCard = () => {
     setFilterProduct(resData);
   };
 
-  //rendering the product card
+ const HOFComponent = HOF(Product);
+
+
+
+  /* //rendering the product card
   if (listOfProduct.length === 0) {
     return <Skeleton />;
-  }
+  } */
 
   return listOfProduct.length === 0 ? (
     <Skeleton />
@@ -81,8 +85,13 @@ export const ProductCard = () => {
         {filterProduct.map((product) => {
           return (
             <Link key={product.id} to={`/product/${product.id}`}>
-              {" "}
-              <Product product={product} />
+              {product.rating.rate >= 4 ? (
+                <HOFComponent product={product} />
+              ) : (
+                <Product product={product} />
+              )
+              }
+             
             </Link>
           );
         })}

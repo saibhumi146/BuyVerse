@@ -11,3 +11,16 @@ const Product = ({product}) => {
   );
 };
 export default Product;//default export added
+
+export const HOF = (Product) => {
+  return (props) => {
+    return (
+      <div className="relative">
+        <span className="absolute -top-2 -left-2  bg-black text-white px-4 py-1 rounded-xl"> BestSeller</span>
+         <Product {...props} />
+      </div>
+    );
+  };
+};
+  
+ 

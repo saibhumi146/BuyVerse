@@ -352,7 +352,13 @@ Reduces Duplication
 Avoid repeating same code.
 ex : useGetSingleProduct.js 
 
+A Higher Order Component (HOC) is simply:
+A function that takes a component and returns a new component with extra features.
 
+Think of it like:
+Original component = normal phone
+HOC = phone cover + extra protection
+The phone stays same, but gets extra functionality.
 
 
  
