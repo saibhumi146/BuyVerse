@@ -17,9 +17,9 @@ const Navbar = () => {
  
   
   return (
-    <div className="navbar">
-      <h1>LOGO</h1>
-      <ul className="menuitems">
+    <div className="flex justify-between items-center p-4 shadow-md">
+      <h1 className="font-bold text-2xl">AJIO</h1>
+      <ul className="flex gap-4">
         <li> <Link to="/men">MEN</Link></li>
         <li> <Link to="/women">WOMEN</Link></li>
           <li> <Link to="/About">ABOUT</Link></li>
@@ -27,7 +27,8 @@ const Navbar = () => {
         <li>HOME & LIVING</li>
         <li>BEAUTY</li>
         <li><Link to="/grocery">GROCERY</Link></li>
-        <button onClick={()=>{
+        <button  className="bg-purple-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+        onClick={()=>{
           setBtnName("dark");
         }}>{btnName} </button>
       </ul>
