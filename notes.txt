@@ -360,5 +360,13 @@ Original component = normal phone
 HOC = phone cover + extra protection
 The phone stays same, but gets extra functionality.
 
+controlled an duncontrolled 
+| Controlled             | Uncontrolled            |
+| ---------------------- | ----------------------- |
+| React controls data    | DOM controls data       |
+| Uses state             | Uses ref                |
+| More control           | Less control            |
+| Better for large forms | Better for simple cases |
+
 
  
