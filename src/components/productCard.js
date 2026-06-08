@@ -1,7 +1,8 @@
 // named export
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
+import UserContext from "../Utilities/UserContext";
 import { productlist } from "../Utilities/constant";
-import Product,{HOF}  from "./Product";
+import Product, { HOF } from "./Product";
 import Skeleton from "./skeleton";
 import { Link } from "react-router-dom";
 
@@ -9,16 +10,14 @@ export const ProductCard = () => {
   const [listOfProduct, setListOfProduct] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
+  const user = useContext(UserContext);
 
-  useEffect(() => {
+  console.log(user);
+   useEffect(() => {
     fetchData();
-    const timer = setInterval(() => {
-      console.log("Bhumi Shinde");
-    }, 1000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+   
+  }, []); 
 
   const fetchData = async () => {
     const data = await fetch("https://fakestoreapi.com/products");
@@ -28,9 +27,7 @@ export const ProductCard = () => {
     setFilterProduct(resData);
   };
 
- const HOFComponent = HOF(Product);
-
-
+  const HOFComponent = HOF(Product);
 
   /* //rendering the product card
   if (listOfProduct.length === 0) {
@@ -42,44 +39,46 @@ export const ProductCard = () => {
   ) : (
     <div>
       <div className="mt-10 flex mx-5 space-x-10">
-        <div >
-            <input
-          className="border border-gray-400 p-2"
-          type="text"
-          onChange={(e) => setSearchText(e.target.value)}
-          value={searchText}
-        />
-        <button
-          className="bg-purple-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
-          onClick={() => {
-            const filteredData = listOfProduct.filter((product) => {
-              return product.title
-                .toLowerCase()
-                .includes(searchText.toLowerCase());
-            });
-            setFilterProduct(filteredData);
-          }}
-        >
-          Search
-        </button>
-        <button
-        className="bg-purple-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
-        onClick={() => {
-          const filteredproduct = listOfProduct.filter(
-            (product) => product.rating.rate >= 4,
-          );
-          setFilterProduct(filteredproduct);
-        }}
-        style={{ marginTop: "10px" }}
-      >
-        Top Rated Button
-      </button>
-        </div>
-        
-          
-      </div>
+        <div>
+          <input
+            className="border border-gray-400 p-2"
+            type="text"
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+          />
+          <button
+            className="bg-purple-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              const filteredData = listOfProduct.filter((product) => {
+                return product.title
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase());
+              });
+              setFilterProduct(filteredData);
+            }}
+          >
+            Search
+          </button>
 
-    
+          <button
+            className="bg-purple-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
+            onClick={() => {
+              const filteredproduct = listOfProduct.filter(
+                (product) => product.rating.rate >= 4,
+              );
+              setFilterProduct(filteredproduct);
+            }}
+            style={{ marginTop: "10px" }}
+          >
+            Top Rated Button
+          </button>
+        </div>
+        <input
+          className="border border-black p-2"
+          type="text" value={user.name} onChange={(e) => user.setUser(e.target.value)}
+          placeholder="Filter by category..."
+        />
+      </div>
 
       <div className=" grid grid-cols-4 mx-auto gap-4 mt-10 ">
         {filterProduct.map((product) => {
@@ -89,9 +88,7 @@ export const ProductCard = () => {
                 <HOFComponent product={product} />
               ) : (
                 <Product product={product} />
-              )
-              }
-             
+              )}
             </Link>
           );
         })}

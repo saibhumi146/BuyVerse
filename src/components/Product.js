@@ -7,6 +7,7 @@ const Product = ({product}) => {
         <h1 className="text-lg font-bold mt-2">{title}</h1>
         <p className="text-gray-600">{rating.rate} rating</p>
         <p className="text-xl font-bold">Rs.{price}</p>
+        
       </div>
   );
 };

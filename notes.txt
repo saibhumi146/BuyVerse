@@ -369,4 +369,347 @@ controlled an duncontrolled
 | Better for large forms | Better for simple cases |
 
 
- 
+ Props Drilling: Passing props through multiple components that don't need them just to reach a nested component.
+
+useContext: A React Hook that allows components to access shared data directly, avoiding unnecessary prop drilling.
+
+
+Props Drilling vs useContext — Structured Notes
+1. Props Drilling
+Definition
+
+Props drilling is the process of passing data from a parent component to a deeply nested child component through intermediate components that do not use the data themselves.
+
+Why It Happens
+
+React components can only pass data directly to their immediate children using props.
+
+Example
+function App() {
+  const user = "Sai";
+
+  return <Parent user={user} />;
+}
+
+function Parent({ user }) {
+  return <Child user={user} />;
+}
+
+function Child({ user }) {
+  return <h1>Hello {user}</h1>;
+}
+Flow
+App
+ ↓ user
+Parent
+ ↓ user
+Child
+Problems with Props Drilling
+Repetitive prop passing
+Makes code harder to maintain
+Intermediate components receive unnecessary props
+Difficult to manage in large applications
+Advantages
+Simple and explicit
+Easy to track data flow
+Suitable for small component trees
+When to Use
+Small applications
+Data needed by only a few components
+Shallow component hierarchy
+2. useContext
+Definition
+
+useContext is a React Hook that allows components to access shared data directly from a Context without passing props through every level.
+
+Purpose
+
+To avoid prop drilling and provide global/shared data to multiple components.
+
+Step 1: Create Context
+import { createContext } from "react";
+
+export const UserContext = createContext();
+Step 2: Provide Data
+<UserContext.Provider value="Sai">
+  <App />
+</UserContext.Provider>
+Step 3: Consume Data
+import { useContext } from "react";
+
+const user = useContext(UserContext);
+
+return <h1>Hello {user}</h1>;
+Flow
+UserContext
+     ↓
+   Child
+
+No need for:
+
+App → Parent → Child
+Advantages
+Eliminates prop drilling
+Cleaner component hierarchy
+Easier state sharing
+Better code readability
+Disadvantages
+Can cause unnecessary re-renders if overused
+Not ideal for very complex state management
+Can make data flow less obvious
+When to Use
+Theme management
+Authentication/User data
+Language settings
+Global application settings
+
+
+Redux Toolkit Notes (Simple Language)
+What is Redux Toolkit?
+
+Redux Toolkit (RTK) is the official and easier way to use Redux.
+
+It helps us manage global state in a React application.
+
+Instead of passing data from parent → child → grandchild using props, Redux stores data in one central place called the Store.
+
+Why use Redux Toolkit?
+
+Imagine an e-commerce website.
+
+You add items to a cart from different pages.
+
+Many components need access to the cart data.
+
+Without Redux:
+
+Props drilling becomes difficult.
+State management becomes messy.
+
+With Redux Toolkit:
+
+Cart data is stored in one place.
+Any component can access it.
+Easier to maintain large applications.
+Redux Toolkit Flow
+Component
+   ↓
+Dispatch Action
+   ↓
+Reducer
+   ↓
+Store Updated
+   ↓
+UI Re-renders
+
+Example:
+
+Add to Cart Button Clicked
+        ↓
+dispatch(addItem())
+        ↓
+Reducer updates cart
+        ↓
+Store updates
+        ↓
+Navbar Cart Count updates automatically
+Main Concepts
+1. Store
+
+The store is the central place where all application data is stored.
+
+Example:
+
+const store = configureStore({
+  reducer: {
+    cart: cartSlice.reducer,
+  },
+});
+
+Think of Store as:
+
+Store
+ └── Cart Data
+ └── User Data
+ └── Product Data
+2. Slice
+
+A slice contains:
+
+State
+Reducers
+Actions
+
+Example:
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    items: [],
+  },
+  reducers: {
+    addItem: (state, action) => {
+      state.items.push(action.payload);
+    },
+  },
+});
+3. Initial State
+
+Initial state is the default state.
+
+initialState: {
+  items: []
+}
+
+Initially cart is empty.
+
+4. Reducer
+
+Reducers update the state.
+
+Example:
+
+addItem: (state, action) => {
+  state.items.push(action.payload);
+}
+
+When an item is added:
+
+Old State
+[]
+
+After adding:
+
+[
+  { id: 1, name: "Pizza" }
+]
+5. Action
+
+Action tells Redux what needs to happen.
+
+Example:
+
+dispatch(addItem(product))
+
+Action:
+
+ADD_ITEM
+
+with data:
+
+product
+6. Dispatch
+
+Dispatch sends an action to Redux.
+
+Example:
+
+dispatch(addItem(item))
+
+Meaning:
+
+"Hey Redux, add this item to cart."
+7. useDispatch()
+
+Used to dispatch actions from components.
+
+import { useDispatch } from "react-redux";
+
+const dispatch = useDispatch();
+
+dispatch(addItem(item));
+8. useSelector()
+
+Used to read data from the store.
+
+const cartItems = useSelector(
+  (store) => store.cart.items
+);
+
+Now you can access cart data anywhere.
+
+Cart Example
+Add Item
+dispatch(addItem(product));
+
+Reducer:
+
+addItem: (state, action) => {
+  state.items.push(action.payload);
+}
+Remove Item
+removeItem: (state) => {
+  state.items.pop();
+}
+Clear Cart
+clearCart: (state) => {
+  state.items.length = 0;
+}
+
+or
+
+clearCart: () => {
+  return { items: [] };
+}
+Provider
+
+Provider makes Redux available to the entire application.
+
+<Provider store={appStore}>
+  <App />
+</Provider>
+
+Without Provider:
+
+useSelector()
+useDispatch()
+
+will not work.
+
+Files Structure
+src
+│
+├── utils
+│   ├── appStore.js
+│   └── cartSlice.js
+│
+├── components
+│   ├── Navbar.js
+│   ├── Cart.js
+│   └── Body.js
+Cart Count Example
+
+Navbar:
+
+const cartItems = useSelector(
+  (store) => store.cart.items
+);
+
+<Link to="/cart">
+  Cart-{cartItems.length}
+</Link>
+
+If cart contains:
+
+[
+  Pizza,
+  Burger,
+  Coke
+]
+
+Output:
+
+Cart-3
+Advantages of Redux Toolkit
+
+✅ Less code
+
+✅ Easy state management
+
+✅ No prop drilling
+
+✅ Faster development
+
+✅ Better debugging
+
+✅ Official Redux recommendation

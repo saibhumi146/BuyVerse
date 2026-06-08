@@ -1,4 +1,6 @@
 import React from "react";
+import UserContext from "../Utilities/UserContext";
+
 
 class Profileclass extends React.Component {
   constructor() {
@@ -9,7 +11,7 @@ class Profileclass extends React.Component {
         avatar_url: "https://avatars.githubusercontent.com/u/9919?s=280&v=4"
       }
     }
-    console.log('constructor is called');
+    //console.log('constructor is called');
  }
   async componentDidMount() {
     const data  = await fetch("https://api.github.com/users/saibhumi146");
@@ -19,21 +21,21 @@ class Profileclass extends React.Component {
       userDetails: resData
     });
     
-     console.log('component did mount');
+    // console.log('component did mount');
      
   }
  
 
   componentDidUpdate(){
-    console.log('component did update called');
+    //console.log('component did update called');
   }
   componentWillUnmount(){
-    console.log('component will unmount called');
+   // console.log('component will unmount called');
     clearInterval(this.timer);
   }
 
   render() {
-    console.log('render is called');
+    //console.log('render is called');
     if (this.state.userDetails === null) {
       return <h1> Loading ... </h1>;
     }
@@ -43,7 +45,11 @@ class Profileclass extends React.Component {
       
       <div style={{ border: "1px solid black" }}>
         <h1>Profile Class based COMPONENT</h1>
-        <h1>Name: {name}</h1>
+        <UserContext.Consumer>
+          {({name}) => 
+          <h1 className="text-xl font-bold">{name}</h1>}
+        </UserContext.Consumer>
+        
         <img src={avatar_url} alt="profile pic" width="200px" />
         
         
@@ -52,6 +58,7 @@ class Profileclass extends React.Component {
   }
 }
 export default Profileclass;
+
 
 //---- mounting phase ----
 // ctr is called with (null)
