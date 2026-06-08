@@ -5,9 +5,17 @@ import Accordian from "./Accordian";
 const Men = () => {
   // Product State
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   // Accordion State (Controlled Component)
   const [open, setOpen] = useState(null);
+
+  // Filter States
+  const [selectedShopFor, setSelectedShopFor] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
+  const [selectedSize, setSelectedSize] = useState([]);
+  const [selectedColor, setSelectedColor] = useState([]);
 
   // Fetch Products
   useEffect(() => {
@@ -16,8 +24,42 @@ const Men = () => {
       .then((data) => setProducts(data));
   }, []);
 
-  // Accordion Titles
-  const filters = ["Shop For", "Price", "Brand", "Size", "Color"];
+  // Apply Filters
+  useEffect(() => {
+    let filtered = products;
+
+    // Price Filter
+    if (selectedPrice.length > 0) {
+      filtered = filtered.filter((product) => {
+        const priceInINR = Math.floor(product.price * 85);
+        return selectedPrice.some((range) => {
+          if (range === "Under 1000") return priceInINR < 1000;
+          if (range === "1000 - 3000") return priceInINR >= 1000 && priceInINR <= 3000;
+          if (range === "3000 - 5000") return priceInINR >= 3000 && priceInINR <= 5000;
+          if (range === "Above 5000") return priceInINR > 5000;
+          return true;
+        });
+      });
+    }
+
+    setFilteredProducts(filtered);
+  }, [products, selectedPrice, selectedShopFor, selectedBrand, selectedSize, selectedColor]);
+
+  // Filter Options
+  const shopForOptions = ["Casual", "Formal", "Sports", "Party"];
+  const priceOptions = ["Under 1000", "1000 - 3000", "3000 - 5000", "Above 5000"];
+  const brandOptions = ["Nike", "Adidas", "Puma", "Levi's"];
+  const sizeOptions = ["S", "M", "L", "XL", "XXL"];
+  const colorOptions = ["Black", "White", "Blue", "Red", "Green"];
+
+  // Handle Filter Change
+  const handleFilterChange = (filterArray, setFilterArray, value) => {
+    if (filterArray.includes(value)) {
+      setFilterArray(filterArray.filter((item) => item !== value));
+    } else {
+      setFilterArray([...filterArray, value]);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -36,23 +78,63 @@ const Men = () => {
             Filter Options
           </h2>
 
-          {filters.map((title, index) => (
-            <Accordian
-              key={index}
-              title={title}
-              open={open === index}
-              setOpen={() => setOpen(index)}
-            />
-          ))}
+          <Accordian
+            title="Shop For"
+            open={open === 0}
+            setOpen={() => setOpen(open === 0 ? null : 0)}
+            filters={shopForOptions}
+            selectedFilters={selectedShopFor}
+            onFilterChange={(value) => handleFilterChange(selectedShopFor, setSelectedShopFor, value)}
+          />
+
+          <Accordian
+            title="Price"
+            open={open === 1}
+            setOpen={() => setOpen(open === 1 ? null : 1)}
+            filters={priceOptions}
+            selectedFilters={selectedPrice}
+            onFilterChange={(value) => handleFilterChange(selectedPrice, setSelectedPrice, value)}
+          />
+
+          <Accordian
+            title="Brand"
+            open={open === 2}
+            setOpen={() => setOpen(open === 2 ? null : 2)}
+            filters={brandOptions}
+            selectedFilters={selectedBrand}
+            onFilterChange={(value) => handleFilterChange(selectedBrand, setSelectedBrand, value)}
+          />
+
+          <Accordian
+            title="Size"
+            open={open === 3}
+            setOpen={() => setOpen(open === 3 ? null : 3)}
+            filters={sizeOptions}
+            selectedFilters={selectedSize}
+            onFilterChange={(value) => handleFilterChange(selectedSize, setSelectedSize, value)}
+          />
+
+          <Accordian
+            title="Color"
+            open={open === 4}
+            setOpen={() => setOpen(open === 4 ? null : 4)}
+            filters={colorOptions}
+            selectedFilters={selectedColor}
+            onFilterChange={(value) => handleFilterChange(selectedColor, setSelectedColor, value)}
+          />
 
         </div>
 
         {/* RIGHT SIDE - PRODUCT SECTION */}
         <div className="lg:col-span-3">
 
+          <p className="text-gray-600 mb-5">
+            Showing {filteredProducts.length} of {products.length} products
+          </p>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <Link
                 key={product.id}
                 to={`/product/${product.id}`}

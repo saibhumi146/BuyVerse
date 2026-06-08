@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Accordian from "./Accordian";
 
-const Kid = () => {
+const Women = () => {
   // Product State
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -19,28 +19,9 @@ const Kid = () => {
 
   // Fetch Products
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
+    fetch("https://fakestoreapi.com/products/category/women's clothing")
       .then((res) => res.json())
-      .then((data) => {
-        // Filter for only kids items
-        const kidsProducts = data.filter((product) => {
-          const title = product.title.toLowerCase();
-          const description = product.description.toLowerCase();
-          const isKidsItem = 
-            title.includes("kid") ||
-            title.includes("child") ||
-            title.includes("children") ||
-            title.includes("boy") ||
-            title.includes("girl") ||
-            title.includes("toddler") ||
-            description.includes("kid") ||
-            description.includes("child") ||
-            description.includes("children");
-          
-          return isKidsItem;
-        });
-        setProducts(kidsProducts);
-      });
+      .then((data) => setProducts(data));
   }, []);
 
   // Apply Filters
@@ -52,10 +33,10 @@ const Kid = () => {
       filtered = filtered.filter((product) => {
         const priceInINR = Math.floor(product.price * 85);
         return selectedPrice.some((range) => {
-          if (range === "Under 500") return priceInINR < 500;
-          if (range === "500 - 1500") return priceInINR >= 500 && priceInINR <= 1500;
-          if (range === "1500 - 3000") return priceInINR >= 1500 && priceInINR <= 3000;
-          if (range === "Above 3000") return priceInINR > 3000;
+          if (range === "Under 1000") return priceInINR < 1000;
+          if (range === "1000 - 3000") return priceInINR >= 1000 && priceInINR <= 3000;
+          if (range === "3000 - 5000") return priceInINR >= 3000 && priceInINR <= 5000;
+          if (range === "Above 5000") return priceInINR > 5000;
           return true;
         });
       });
@@ -65,11 +46,11 @@ const Kid = () => {
   }, [products, selectedPrice, selectedShopFor, selectedBrand, selectedSize, selectedColor]);
 
   // Filter Options
-  const shopForOptions = ["Casual", "Playful", "Sports", "Party"];
-  const priceOptions = ["Under 500", "500 - 1500", "1500 - 3000", "Above 3000"];
-  const brandOptions = ["Disney", "Marvel", "Nike", "Puma"];
-  const sizeOptions = ["2-3Y", "4-5Y", "6-7Y", "8-10Y"];
-  const colorOptions = ["Red", "Blue", "Green", "Yellow"];
+  const shopForOptions = ["Casual", "Formal", "Sports", "Party"];
+  const priceOptions = ["Under 1000", "1000 - 3000", "3000 - 5000", "Above 5000"];
+  const brandOptions = ["Nike", "Adidas", "Puma", "H&M"];
+  const sizeOptions = ["XS", "S", "M", "L", "XL"];
+  const colorOptions = ["Black", "White", "Pink", "Red", "Blue"];
 
   // Handle Filter Change
   const handleFilterChange = (filterArray, setFilterArray, value) => {
@@ -85,7 +66,7 @@ const Kid = () => {
 
       {/* Page Heading */}
       <h1 className="text-4xl font-bold text-center mb-10">
-        Kids Collection
+        Women's Collection
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
@@ -211,4 +192,4 @@ const Kid = () => {
   );
 };
 
-export default Kid;
+export default Women;

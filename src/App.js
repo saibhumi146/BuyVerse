@@ -6,6 +6,7 @@ import Error from './components/Error';
 import {createBrowserRouter,RouterProvider,Outlet} from "react-router-dom";            
 import Kid from './components/kid';
 import Men from './components/Men';
+import Women from './components/Women';
 import About from './components/About';
 import Productdetails from './components/Productdetails';
 import Cart from './components/Cart';
@@ -15,6 +16,7 @@ import { Provider } from 'react-redux';
 import appStore from './store/store';
 import Memo from './components/Memo';
 import Login from './components/Login';
+
 
 //import Grocery from './components/grocery'; //lazy loading 
 
@@ -55,6 +57,10 @@ const appRouter = createBrowserRouter([{
 {
   path:"/men",
   element:<Men/>
+},
+{
+  path:"/Women",
+  element:<Women/>
 },
 {
   path:"/cart",
